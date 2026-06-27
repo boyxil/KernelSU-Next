@@ -127,6 +127,11 @@ int __init kernelsu_init(void)
 		return -ENOSYS;
 	}
 
+	// Sync GKI_struct_selinux_state early to prevent MKP panic
+	GKI_struct_selinux_state.initialized = selinux_state.initialized;
+	GKI_struct_selinux_state.avc = selinux_state.avc;
+	GKI_struct_selinux_state.policy = selinux_state.policy;
+
 	ksu_init_symbol_resolver();
 	ksu_syscall_hook_init();
 
