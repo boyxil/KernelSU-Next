@@ -490,6 +490,11 @@ static void hook_selinux_status_open()
 
 void __init ksu_selinux_hide_init()
 {
+    // Sync GKI_struct_selinux_state early to prevent MKP panic
+    GKI_struct_selinux_state.initialized = selinux_state.initialized;
+    GKI_struct_selinux_state.avc = selinux_state.avc;
+    GKI_struct_selinux_state.policy = selinux_state.policy;
+
     if (ksu_register_feature_handler(&selinux_hide_handler)) {
         pr_err("Failed to register selinux_hide feature handler\n");
     }
