@@ -157,6 +157,7 @@ void apply_kernelsu_rules()
     ksu_allow(db, "system_server", KERNEL_SU_DOMAIN, "process", "sigkill");
 
     rcu_assign_pointer(selinux_state.policy, pol);
+    GKI_struct_selinux_state.policy = pol;
     synchronize_rcu();
     ksu_destroy_sepolicy(old_pol);
 
@@ -526,6 +527,7 @@ int handle_sepolicy(void __user *user_data, u64 data_len)
     }
 
     rcu_assign_pointer(selinux_state.policy, pol);
+    GKI_struct_selinux_state.policy = pol;
     synchronize_rcu();
     ksu_destroy_sepolicy(old_pol);
 
