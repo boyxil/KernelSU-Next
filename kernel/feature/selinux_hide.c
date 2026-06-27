@@ -223,6 +223,10 @@ static int __nocfi my_setprocattr(const char *name, void *value, size_t size)
         return error;
     }
 
+    if (!fake_state.initialized) {
+        goto call_orig;
+    }
+
     if (size && str[0] && str[0] != '\n') {
         if (str[size - 1] == '\n') {
             str[size - 1] = 0;
