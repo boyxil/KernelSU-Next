@@ -347,6 +347,9 @@ static int ksu_selinux_hide_enable()
 #else
     fake_state.initialized = true;
     fake_state.policy = backup_sepolicy;
+    // Sync AVC state too; leaving it NULL makes the security_* helpers
+    // operating on fake_state dereference a NULL avc and take the kernel down.
+    fake_state.avc = selinux_state.avc;
 #endif
 
     context_write = &selinux_write_op[SEL_CONTEXT];
